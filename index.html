@@ -64,7 +64,7 @@
 </head>
 <body>
 
-<audio autoplay loop>
+<audio id="background-audio" autoplay loop>
     <source src="music.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
 </audio>
@@ -78,6 +78,11 @@
 </div>
 
 <script>
+    // Set volume for the audio
+    const audioElement = document.getElementById('background-audio');
+    audioElement.volume = 0.4; // Set volume to medium-low (0.4)
+
+    // Other JavaScript functions remain unchanged
     function generatePassword() {
         const length = 10;
         const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";

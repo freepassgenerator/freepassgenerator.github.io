@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background-image: url('https://64.media.tumblr.com/8d9df4fd79cc7e8fe33c915284d228a1/15d79534e1be4dc9-93/s1280x1920/e42ff972d439c7ce5d7e7db1450e7e9218a2686f.gif');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .password {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .password-list {
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Password Generator</h1>
+    <button onclick="generatePassword()">Generate Password</button>
+    <button onclick="showAllPasswords()">Show All Passwords</button>
+    <div class="password" id="passwordDisplay"></div>
+    <div class="password-list" id="passwordList"></div>
+</div>
+
+<script>
+    function generatePassword() {
+        const length = 10;
+        const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+        let password = "";
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset[randomIndex];
+        }
+        document.getElementById('passwordDisplay').innerText = password;
+
+        // Save the generated password to localStorage
+        savePassword(password);
+    }
+
+    function savePassword(password) {
+        let passwords = JSON.parse(localStorage.getItem('passwords')) || [];
+        passwords.push(password);
+        localStorage.setItem('passwords', JSON.stringify(passwords));
+    }
+
+    function showAllPasswords() {
+        let passwords = JSON.parse(localStorage.getItem('passwords')) || [];
+        const passwordListElement = document.getElementById('passwordList');
+        passwordListElement.innerHTML = '';
+
+        if (passwords.length === 0) {
+            passwordListElement.innerText = "No passwords generated yet.";
+        } else {
+            passwordListElement.innerHTML = '<h3>All Generated Passwords:</h3>';
+            passwords.forEach((pwd, index) => {
+                passwordListElement.innerHTML += `<p>${index + 1}: ${pwd}</p>`;
+            });
+        }
+    }
+
+    // Show previously generated passwords on page load
+    window.onload = showAllPasswords;
+
+</script>
+
+</body>
+</html>
